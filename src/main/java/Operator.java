@@ -1,5 +1,6 @@
 public class Operator {
 
+
     public static void main(String[] args){
         double b = 2.1;
         long a = (Math.round(b));

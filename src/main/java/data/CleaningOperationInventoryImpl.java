@@ -1,7 +1,7 @@
 package data;
 
 import beans.Room;
-
+import org.apache.log4j.Logger;
 import java.sql.*;
 
 /**
@@ -14,8 +14,11 @@ import java.sql.*;
 
 public class CleaningOperationInventoryImpl implements CleaningOperationInventory{
 
+    static Logger logger = Logger.getLogger(CleaningOperationInventoryImpl.class.getName());
+
     private static Connection con;
     private boolean hasData = false;
+
     SystemAndNetworkProperties systemAndNetworkProperties = SystemAndNetworkProperties.getInstance();
 
     /**
@@ -83,6 +86,8 @@ public class CleaningOperationInventoryImpl implements CleaningOperationInventor
                             " HOOVER_LONG INTEGER," +
                             " DIRT_LAT INTEGER," +
                             " DIRT_LONG INTEGER," +
+                            " ROOM_WIDTH INTEGER," +
+                            " ROOM_LENGTH INTEGER,"+
                             " TILES_NUM_COVERED INTEGER," +
                             ");";
                     Statement statement_2 = con.createStatement();
