@@ -4,6 +4,7 @@ import beans.Coords;
 import beans.Room;
 import org.apache.log4j.Logger;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class NavigationImpl implements Navigation{
@@ -98,23 +99,23 @@ public class NavigationImpl implements Navigation{
 
         for(int i = 0 ; i< instructionSteps.length ; i++){
             char moveDirection = instructionSteps[i];
-            if(i =='N'){
+            if(moveDirection =='N'){
                 latitude += 1;
                 if(latitude > room.getWidth()){
                     latitude = room.getWidth();
                 }
-            }else if(i =='S'){
+            }else if(moveDirection =='S'){
                 latitude -= 1;
                 if(latitude<0){
                     latitude = 0;
                 }
-            }else if(i == 'E'){
+            }else if(moveDirection == 'E'){
                 longitude += 1;
                 if(longitude > room.getLength()){
                     longitude = room.getLength();
                 }
 
-            }else if(i == 'W'){
+            }else if(moveDirection == 'W'){
                 longitude -= 1;
                 if(longitude<0){
                     longitude = 0;
@@ -143,7 +144,7 @@ public class NavigationImpl implements Navigation{
     public int getNumberOfDirtPatchesCovered(String instructions , Room room) {
 
         List<Coords> dirtPatchLocations = room.getDirtLocationsList();
-        List<Coords> cleanedPatches = room.getDirtLocationsList();
+        List<Coords> cleanedPatches = new LinkedList<Coords>();
         int numberOfDirtPatchesCovered = 0;
         Coords hooverLocation = room.getHooverLocation();
 
@@ -157,8 +158,7 @@ public class NavigationImpl implements Navigation{
              * To check if the starting point of
              * hover is a dirty patch
              */
-            if(alreadyCleaned( hooverLocation, cleanedPatches)){
-                numberOfDirtPatchesCovered ++;
+            if(!alreadyCleaned(hooverLocation, cleanedPatches) && isPatchDirty(hooverLocation,room)){
                 cleanedPatches.add(hooverLocation);
                 numberOfDirtPatchesCovered ++;
             }
@@ -168,21 +168,12 @@ public class NavigationImpl implements Navigation{
                 hooverNextPosition = getNextPosition(moveDirection , room);
                 room.setHooverLocation(hooverNextPosition);
 
-                for(Coords dirtyPatchCoordinate : dirtPatchLocations){
-                    if(hooverNextPosition.getPositionX() == dirtyPatchCoordinate.getPositionX() &&
-                            hooverNextPosition.getPositionY() == dirtyPatchCoordinate.getPositionY() &&
-                            !alreadyCleaned(dirtyPatchCoordinate, cleanedPatches)
-
-                    ){
-                        numberOfDirtPatchesCovered ++;
-                        cleanedPatches.add(dirtyPatchCoordinate);
-
-                    }
-
+                if((!alreadyCleaned(hooverLocation, cleanedPatches) && isPatchDirty(hooverLocation,room))){
+                    numberOfDirtPatchesCovered ++;
+                    cleanedPatches.add(hooverLocation);
                 }
 
             }
-
         }
         return numberOfDirtPatchesCovered;
 
@@ -232,6 +223,22 @@ public class NavigationImpl implements Navigation{
             }
         }
         return alreadyCleaned;
+    }
+
+
+    private boolean isPatchDirty(Coords patchCoordinate, Room room){
+        Boolean isPatchDirty = false;
+        List<Coords> dirtyPatches = room.getDirtLocationsList();
+        for (Coords dirtyPatchCoord: dirtyPatches){
+
+            if(patchCoordinate.getPositionX() == dirtyPatchCoord.getPositionX() &&
+                    patchCoordinate.getPositionY() == dirtyPatchCoord.getPositionY()
+            ){
+                isPatchDirty = true;
+            }
+        }
+        return isPatchDirty;
+
     }
 
 

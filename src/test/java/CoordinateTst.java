@@ -1,9 +1,12 @@
+import beans.Coords;
+import org.junit.Test;
+
 public class CoordinateTst {
 
-    public void testDirtCoordinate(){
-
-    }
-    public void testHooverCoordinate(){
-
+    @Test
+    public void testConstructor(){
+        Coords coordinates = new Coords(12,2);
+        assert (coordinates.getPositionX() == 12);
+        assert (coordinates.getPositionY() == 2);
     }
 }
