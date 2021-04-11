@@ -1,6 +1,6 @@
 package data;
 
-import beans.Coords;
+import beans.Coordinates;
 import beans.Room;
 import org.apache.log4j.Logger;
 import java.sql.*;
@@ -30,7 +30,7 @@ public class CleaningOperationInventoryImpl implements CleaningOperationInventor
      * @param room
      * @param NumberOfTilesCleaned
      */
-    public void persistOperation(Coords finalHooverLocation, Room room, int NumberOfTilesCleaned, String resultJSON){
+    public void persistOperation(Coordinates finalHooverLocation, Room room, int NumberOfTilesCleaned, String resultJSON){
 
         if (!isConnectionValid()){
             getConnection();

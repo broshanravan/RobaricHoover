@@ -1,4 +1,4 @@
-import beans.Coords;
+import beans.Coordinates;
 import beans.Room;
 import driving.Navigation;
 import driving.NavigationImpl;
@@ -20,32 +20,32 @@ public class NavigationTst {
      */
     @Before
     public void setup(){
-        List<Coords> dirtLocationsStartingFromADirtyPatchLst = new LinkedList<Coords>();
+        List<Coordinates> dirtLocationsStartingFromADirtyPatchLst = new LinkedList<Coordinates>();
 
-        Coords dirtPosition_1 = new Coords(3,7);
-        Coords dirtPosition_2 = new Coords(6,5);
-        Coords dirtPosition_3 = new Coords(8,8);
-        Coords dirtPosition_4 = new Coords(1,1);
+        Coordinates dirtPosition_1 = new Coordinates(3,7);
+        Coordinates dirtPosition_2 = new Coordinates(6,5);
+        Coordinates dirtPosition_3 = new Coordinates(8,8);
+        Coordinates dirtPosition_4 = new Coordinates(1,1);
 
         dirtLocationsStartingFromADirtyPatchLst.add(dirtPosition_1);
         dirtLocationsStartingFromADirtyPatchLst.add(dirtPosition_2);
         dirtLocationsStartingFromADirtyPatchLst.add(dirtPosition_3);
 
 
-        List<Coords> dirtLocationsDirtyPatchNotCoveredLst = new LinkedList<Coords>();
+        List<Coordinates> dirtLocationsDirtyPatchNotCoveredLst = new LinkedList<Coordinates>();
 
         dirtLocationsStartingFromADirtyPatchLst.add(dirtPosition_1);
         dirtLocationsStartingFromADirtyPatchLst.add(dirtPosition_2);
         dirtLocationsStartingFromADirtyPatchLst.add(dirtPosition_4);
 
-        List<Coords> dirtyPatchCoveredMoreThanOnceLst = new LinkedList<Coords>();
+        List<Coordinates> dirtyPatchCoveredMoreThanOnceLst = new LinkedList<Coordinates>();
         dirtyPatchCoveredMoreThanOnceLst.add(dirtPosition_1);
         dirtyPatchCoveredMoreThanOnceLst.add(dirtPosition_1);
         dirtyPatchCoveredMoreThanOnceLst.add(dirtPosition_2);
         dirtyPatchCoveredMoreThanOnceLst.add(dirtPosition_3);
         dirtyPatchCoveredMoreThanOnceLst.add(dirtPosition_4);
 
-        Coords hooverStartingPosition = new Coords(3,7);
+        Coordinates hooverStartingPosition = new Coordinates(3,7);
         room = new Room(15, 10, dirtLocationsStartingFromADirtyPatchLst, hooverStartingPosition );
         roomNoDirtyPatchInPath = new Room(15, 10, dirtLocationsDirtyPatchNotCoveredLst, hooverStartingPosition);
         roomDirtyPatchCoveredMoreThanOnce = new Room(15, 10, dirtyPatchCoveredMoreThanOnceLst, hooverStartingPosition);;
@@ -61,7 +61,7 @@ public class NavigationTst {
     public void getFinalPositionTst(){
         Navigation navigation = new NavigationImpl();
         String instructions = "NNESESWSE";
-        Coords hooverNextPosition =
+        Coordinates hooverNextPosition =
         navigation.getFinalPosition(instructions, room);
 
         assert(hooverNextPosition.getPositionX() == 5);
@@ -77,7 +77,7 @@ public class NavigationTst {
     @Test
     public void getNextPositionTst(){
         Navigation navigation = new NavigationImpl();
-        Coords hooverNextPosition = null;
+        Coordinates hooverNextPosition = null;
 
         char moveDirection = 'N';
         hooverNextPosition = navigation. getNextPosition(moveDirection , room);
@@ -136,7 +136,7 @@ public class NavigationTst {
     public void testStartingFromADirtyPatch(){
         Navigation navigation = new NavigationImpl();
         String instructions = "NNEWSEESNW";
-        Coords hooverNextPosition = null;
+        Coordinates hooverNextPosition = null;
 
         char instructionSteps[] = instructions.toCharArray();
         for(int i = 0 ; i< instructionSteps.length ; i++) {

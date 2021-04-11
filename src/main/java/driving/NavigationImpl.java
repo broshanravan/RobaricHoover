@@ -1,6 +1,6 @@
 package driving;
 
-import beans.Coords;
+import beans.Coordinates;
 import beans.Room;
 import org.apache.log4j.Logger;
 
@@ -21,9 +21,9 @@ public class NavigationImpl implements Navigation{
      * @param room
      * @return
      */
-    public Coords getNextPosition(char moveDirection , Room room){
+    public Coordinates getNextPosition(char moveDirection , Room room){
 
-        Coords startPosition = room.getHooverLocation();
+        Coordinates startPosition = room.getHooverLocation();
 
         int longitude =startPosition.getPositionX();
         int latitude = startPosition.getPositionY();
@@ -53,7 +53,7 @@ public class NavigationImpl implements Navigation{
 
         }
 
-        Coords newLocation = new Coords(longitude,latitude) ;
+        Coordinates newLocation = new Coordinates(longitude,latitude) ;
 
         return newLocation;
 
@@ -62,7 +62,7 @@ public class NavigationImpl implements Navigation{
 
     public int getDirtPatcherCovered(String instructions , Room room){
         int patchesCovered = 0;
-        Coords startPosition = room.getHooverLocation();
+        Coordinates startPosition = room.getHooverLocation();
 
         int longitude =startPosition.getPositionX();
         int latitude = startPosition.getPositionY();
@@ -70,7 +70,7 @@ public class NavigationImpl implements Navigation{
         char instructionSteps[] = instructions.toCharArray();
 
         for(int i = 0 ; i< instructionSteps.length ; i++){
-            Coords newLocation  = getNextPosition(instructionSteps[i], room);
+            Coordinates newLocation  = getNextPosition(instructionSteps[i], room);
             room.setHooverLocation(newLocation);
 
         }
@@ -88,9 +88,9 @@ public class NavigationImpl implements Navigation{
      * @param room
      * @return
      */
-    public Coords getFinalPosition(String instructions, Room room){
+    public Coordinates getFinalPosition(String instructions, Room room){
 
-        Coords startPosition = room.getHooverLocation();
+        Coordinates startPosition = room.getHooverLocation();
 
         int longitude =startPosition.getPositionX();
         int latitude = startPosition.getPositionY();
@@ -125,7 +125,7 @@ public class NavigationImpl implements Navigation{
 
         }
 
-        Coords finalPosition = new Coords(longitude,latitude) ;
+        Coordinates finalPosition = new Coordinates(longitude,latitude) ;
 
 
         return finalPosition;
@@ -143,15 +143,15 @@ public class NavigationImpl implements Navigation{
      */
     public int getNumberOfDirtPatchesCovered(String instructions , Room room) {
 
-        List<Coords> dirtPatchLocations = room.getDirtLocationsList();
-        List<Coords> cleanedPatches = new LinkedList<Coords>();
+        List<Coordinates> dirtPatchLocations = room.getDirtLocationsList();
+        List<Coordinates> cleanedPatches = new LinkedList<Coordinates>();
         int numberOfDirtPatchesCovered = 0;
-        Coords hooverLocation = room.getHooverLocation();
+        Coordinates hooverLocation = room.getHooverLocation();
 
         if(!this.isCoordinateValid(hooverLocation.getPositionX(), hooverLocation.getPositionY(), room, "Hoover")){
             logger.error("Invalid position for the Hoover");
         }else{
-            Coords hooverNextPosition = null;
+            Coordinates hooverNextPosition = null;
             char instructionSteps[] = instructions.toCharArray();
 
             /**
@@ -212,9 +212,9 @@ public class NavigationImpl implements Navigation{
      * @param cleanedPatches
      * @return
      */
-    public boolean alreadyCleaned(Coords coordinate, List<Coords> cleanedPatches){
+    public boolean alreadyCleaned(Coordinates coordinate, List<Coordinates> cleanedPatches){
         boolean alreadyCleaned = false;
-        for(Coords cleanedCoordinate : cleanedPatches){
+        for(Coordinates cleanedCoordinate : cleanedPatches){
             if(cleanedCoordinate.getPositionX() == coordinate.getPositionX() &&
             cleanedCoordinate.getPositionY() == coordinate.getPositionY()){
                 alreadyCleaned = true;
@@ -226,10 +226,10 @@ public class NavigationImpl implements Navigation{
     }
 
 
-    private boolean isPatchDirty(Coords patchCoordinate, Room room){
+    private boolean isPatchDirty(Coordinates patchCoordinate, Room room){
         Boolean isPatchDirty = false;
-        List<Coords> dirtyPatches = room.getDirtLocationsList();
-        for (Coords dirtyPatchCoord: dirtyPatches){
+        List<Coordinates> dirtyPatches = room.getDirtLocationsList();
+        for (Coordinates dirtyPatchCoord: dirtyPatches){
 
             if(patchCoordinate.getPositionX() == dirtyPatchCoord.getPositionX() &&
                     patchCoordinate.getPositionY() == dirtyPatchCoord.getPositionY()

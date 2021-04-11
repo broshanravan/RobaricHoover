@@ -1,10 +1,10 @@
 package beans;
 
-public class Coords {
+public class Coordinates {
     private int positionX = 0;
     private int positionY = 0;
 
-    public Coords(int pisitionX, int positionY) {
+    public Coordinates(int pisitionX, int positionY) {
         this.positionX = pisitionX;
         this.positionY = positionY;
     }

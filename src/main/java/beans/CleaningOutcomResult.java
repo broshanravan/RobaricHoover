@@ -1,19 +1,19 @@
 package beans;
 
 public class CleaningOutcomResult {
-    private Coords finalLocation;
+    private Coordinates finalLocation;
     private int patches;
 
-    public CleaningOutcomResult(Coords finalLocation, int numberOfPatchesCovered) {
+    public CleaningOutcomResult(Coordinates finalLocation, int numberOfPatchesCovered) {
         this.finalLocation = finalLocation;
         this.patches = numberOfPatchesCovered;
     }
 
-    public Coords getFinalLocation() {
+    public Coordinates getFinalLocation() {
         return finalLocation;
     }
 
-    public void setFinalLocation(Coords finalLocation) {
+    public void setFinalLocation(Coordinates finalLocation) {
         this.finalLocation = finalLocation;
     }
 
