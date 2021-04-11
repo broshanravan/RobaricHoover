@@ -1,10 +1,9 @@
-import beans.Coordinate;
+import beans.Coords;
 import beans.Room;
 import driving.Navigation;
 import driving.NavigationImpl;
 import org.junit.Before;
 import org.junit.Test;
-
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,17 +12,17 @@ public class NavigationTst {
     Room room = null;
     @Before
     public void setup(){
-        List<Coordinate> dirtLocations = new LinkedList<Coordinate>();
+        List<Coords> dirtLocations = new LinkedList<Coords>();
 
-        Coordinate dirtPosition_1 = new Coordinate(3,7);
-        Coordinate dirtPosition_2 = new Coordinate(6,5);
-        Coordinate dirtPosition_3 = new Coordinate(8,8);
+        Coords dirtPosition_1 = new Coords(3,7);
+        Coords dirtPosition_2 = new Coords(6,5);
+        Coords dirtPosition_3 = new Coords(8,8);
 
         dirtLocations.add(dirtPosition_1);
         dirtLocations.add(dirtPosition_2);
         dirtLocations.add(dirtPosition_3);
 
-        Coordinate hooverStartingPosition = new Coordinate(3,7);
+        Coords hooverStartingPosition = new Coords(3,7);
         room = new Room(15, 10, dirtLocations, hooverStartingPosition );
     }
 
@@ -32,7 +31,7 @@ public class NavigationTst {
     public void getFinalPositionTst(){
         Navigation navigation = new NavigationImpl();
         String instructions = "NNEWSEESNW";
-        Coordinate hooverNextPosition = null;
+        Coords hooverNextPosition = null;
 
         char instructionSteps[] = instructions.toCharArray();
         for(int i = 0 ; i< instructionSteps.length ; i++) {
@@ -41,7 +40,7 @@ public class NavigationTst {
             room.setHooverLocation(hooverNextPosition);
         }
 
-        assert(hooverNextPosition.getPisitionX() == 4);
+        assert(hooverNextPosition.getPositionX() == 4);
         assert(hooverNextPosition.getPositionY() == 8);
 
 
@@ -50,21 +49,28 @@ public class NavigationTst {
     @Test
     public void getNextPositionTst(){
         Navigation navigation = new NavigationImpl();
-        Coordinate hooverNextPosition = null;
+        Coords hooverNextPosition = null;
 
         char moveDirection = 'N';
         hooverNextPosition = navigation. getNextPosition(moveDirection , room);
 
-        assert(hooverNextPosition.getPisitionX() == 3);
+        assert(hooverNextPosition.getPositionX() == 3);
         assert(hooverNextPosition.getPositionY() == 8);
 
         room.setHooverLocation(hooverNextPosition);
 
         moveDirection = 'E';
         hooverNextPosition = navigation. getNextPosition(moveDirection , room);
-        assert(hooverNextPosition.getPisitionX() == 4);
+        assert(hooverNextPosition.getPositionX() == 4);
         assert(hooverNextPosition.getPositionY() == 8);
 
+    }
+
+    @Test
+    public void getNumberOfDirtPatcherCoveredTst(){
+        Navigation navigation = new NavigationImpl();
+        int numberOfDirtPatchesCovered = navigation.getNumberOfDirtPatchesCovered("NNEWSEE" ,room);
+        assert (numberOfDirtPatchesCovered == 0);
 
     }
 }

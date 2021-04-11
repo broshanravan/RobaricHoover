@@ -5,10 +5,10 @@ import java.util.List;
 public class Room {
     private int length;
     private int width;
-    private List<Coordinate> dirtLocationsList;
-    private Coordinate hooverLocation;
+    private List<Coords> dirtLocationsList;
+    private Coords hooverLocation;
 
-    public Room(int length, int width, List<Coordinate> dirtLocationsList, Coordinate hooverLocation) {
+    public Room(int length, int width, List<Coords> dirtLocationsList, Coords hooverLocation) {
         this.length = length;
         this.width = width;
         this.dirtLocationsList = dirtLocationsList;
@@ -31,19 +31,19 @@ public class Room {
         this.width = width;
     }
 
-    public List<Coordinate> getDirtLocationsList() {
+    public List<Coords> getDirtLocationsList() {
         return dirtLocationsList;
     }
 
-    public void setDirtLocationsList(List<Coordinate> dirtLocationsList) {
+    public void setDirtLocationsList(List<Coords> dirtLocationsList) {
         this.dirtLocationsList = dirtLocationsList;
     }
 
-    public Coordinate getHooverLocation() {
+    public Coords getHooverLocation() {
         return hooverLocation;
     }
 
-    public void setHooverLocation(Coordinate hooverLocation) {
+    public void setHooverLocation(Coords hooverLocation) {
         this.hooverLocation = hooverLocation;
     }
 }

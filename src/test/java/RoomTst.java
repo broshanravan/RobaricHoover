@@ -1,5 +1,5 @@
 
-import beans.Coordinate;
+import beans.Coords;
 import beans.Room;
 import org.junit.Test;
 
@@ -10,24 +10,24 @@ public class RoomTst {
 
     @Test
     public void testParametrizedConstructor(){
-        Coordinate dirtLocation_1 = new Coordinate(10,15);
-        Coordinate dirtLocation_2 = new Coordinate(8,3);
+        Coords dirtLocation_1 = new Coords(10,15);
+        Coords dirtLocation_2 = new Coords(8,3);
 
-        List<Coordinate> dirtLocationsList = new LinkedList<Coordinate>();
+        List<Coords> dirtLocationsList = new LinkedList<Coords>();
 
         dirtLocationsList.add(dirtLocation_1);
         dirtLocationsList.add(dirtLocation_2);
 
-        Coordinate hooverLocation = new Coordinate(5,9);
+        Coords hooverLocation = new Coords(5,9);
         Room room = new Room(25,28,dirtLocationsList, hooverLocation);
 
         assert (room.getLength() == 25);
         assert (room.getWidth() == 28);
 
-        assert (room.getDirtLocationsList().get(0).getPisitionX() == 10 );
+        assert (room.getDirtLocationsList().get(0).getPositionX() == 10 );
         assert (room.getDirtLocationsList().get(0).getPositionY() == 15 );
 
-        assert (room.getHooverLocation().getPisitionX() == 5 );
+        assert (room.getHooverLocation().getPositionX() == 5 );
         assert (room.getHooverLocation().getPositionY() == 9 );
 
     }

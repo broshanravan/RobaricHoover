@@ -1,5 +1,6 @@
 package data;
 
+import beans.Coords;
 import beans.Room;
 import org.apache.log4j.Logger;
 import java.sql.*;
@@ -27,9 +28,47 @@ public class CleaningOperationInventoryImpl implements CleaningOperationInventor
      * cleaning a dirt patch
      * in the room
      * @param room
-     * @param NumberOfTiles
+     * @param NumberOfTilesCleaned
      */
-    public void persistOperation(Room room, int NumberOfTiles){
+    public void persistOperation(Coords finalHooverLocation, Room room, int NumberOfTilesCleaned, String resultJSON){
+
+        if (!isConnectionValid()){
+            getConnection();
+        }
+        try {
+
+            String saveQuery ="Insert into CLEANING_OPERATION_RESULTS" +
+                    " HOOVER_INITIAL_LAT, " +
+                    " HOOVER_INITIAL_LONG," +
+                    " HOOVER_FINIAL_LAT," +
+                    " HOOVER_FINIAL_LONG," +
+                    " ROOM_WIDTH," +
+                    " ROOM_LENGTH,"+
+                    " NUM_TILES_CLEANED," +
+                    " RESULT_JSON" +
+                    " values(?,?,?,?,?,?,?,?);";
+            PreparedStatement preparedStatement = con.prepareStatement(saveQuery);
+
+            preparedStatement.setInt(1, room.getHooverLocation().getPositionX());
+            preparedStatement.setInt(2, room.getHooverLocation().getPositionY() );
+            preparedStatement.setInt(3, finalHooverLocation.getPositionY() );
+            preparedStatement.setInt(4, finalHooverLocation.getPositionX());
+            preparedStatement.setInt(5, room.getWidth());
+            preparedStatement.setInt(6, room.getLength() );
+            preparedStatement.setInt(7, NumberOfTilesCleaned);
+            preparedStatement.setString(8, resultJSON );
+
+            preparedStatement.execute();
+
+        }catch(java.sql.SQLException jse){
+            jse.printStackTrace();
+        } finally {
+            try {
+                con.close();
+            } catch(java.sql.SQLException jse){
+                jse.printStackTrace();
+            }
+        }
 
 
     }
@@ -76,19 +115,21 @@ public class CleaningOperationInventoryImpl implements CleaningOperationInventor
 
             System.out.println("First time initialization of DB");
             try {
-                String customerInitQuery = "SELECT name FROM sqlite_master WHERE type ='table' and NAME = 'CLEANING_OPERATION'";
+                String customerInitQuery = "SELECT name FROM sqlite_master WHERE type ='table' and NAME = 'CLEANING_OPERATION_RESULTS'";
                 Statement statement = con.createStatement();
                 ResultSet rs = statement.executeQuery(customerInitQuery);
                 if (!rs.next()) {
                     String createCustomerTableSQL = "CREATE TABLE CLEANING_OPERATION(" +
                             " OPERATION_ID INTEGER," +
-                            " HOOVER_LAT INTEGER," +
-                            " HOOVER_LONG INTEGER," +
-                            " DIRT_LAT INTEGER," +
-                            " DIRT_LONG INTEGER," +
+                            " HOOVER_INITIAL_LAT INTEGER," +
+                            " HOOVER_INITIAL_LONG INTEGER," +
+                            " HOOVER_FINIAL_LAT INTEGER," +
+                            " HOOVER_FINIAL_LONG INTEGER," +
                             " ROOM_WIDTH INTEGER," +
                             " ROOM_LENGTH INTEGER,"+
-                            " TILES_NUM_COVERED INTEGER," +
+                            " NUM_TILES_CLEANED INTEGER," +
+                            " RESULT_JSON Varchar2(20)" +
+                            " PRIMARY KEY (OPERATION_ID)" +
                             ");";
                     Statement statement_2 = con.createStatement();
                     statement_2.execute(createCustomerTableSQL);
