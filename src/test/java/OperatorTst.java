@@ -34,13 +34,12 @@ public class OperatorTst {
     }
 
     @Test
-    public void testCreatingOutputJSON(){
-        int[] finalCoordinates = {2,5};
+    public void testCreatingOutputJSON() {
+        String[] finalCoordinates = {"1", "3"};
         int patchesCovered = 2;
-        //String getJSONCleaningResul =
+        String SONCleaningResult = operator.getJSONCleaningResult(finalCoordinates, patchesCovered);
 
+        assert (SONCleaningResult.equals("{\"coords\":[\"1\",\"3\"],\"patches\":2}"));
     }
-
-
 
 }
